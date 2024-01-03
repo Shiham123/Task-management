@@ -11,6 +11,7 @@ export default {
         customBgBtn: '#635fc7',
         customCharade: '#2b2c37',
         customTurquoiseBlue: '#364e7e',
+        customCharadeTwo: '#20212c',
       },
     },
   },

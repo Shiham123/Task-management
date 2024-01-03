@@ -1,6 +1,8 @@
 import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
 import { GrTask } from 'react-icons/gr';
+import { CiDark, CiLight } from 'react-icons/ci';
+import { Switch } from '@headlessui/react';
 
 const HeaderDropdown = (props) => {
   const boards = useSelector((state) => state.boards);
@@ -36,10 +38,15 @@ const HeaderDropdown = (props) => {
             <GrTask />
             <p className="capitalize">Create new Board</p>
           </div>
+
+          <div className="mx-2 p-4 space-x-2 bg-slate-100 dark:bg-customCharadeTwo flex justify-center items-center rounded-lg ">
+            {/* Switch */}
+            <Switch></Switch>
+          </div>
         </div>
 
         {/* button close */}
-        <button className="button mx-5" onClick={closeDropdown}>
+        <button className="button mx-5 my-5" onClick={closeDropdown}>
           Close
         </button>
       </div>
