@@ -6,6 +6,7 @@ export default {
     colors: {
       customWhite: '#ffffff',
       darkPrimary: '#2b2c37',
+      customBgBtn: '#635fc7',
     },
     extend: {},
   },
