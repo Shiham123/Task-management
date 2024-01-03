@@ -1,5 +1,13 @@
+import Center from './components/Center';
+import Header from './components/Header';
+
 function App() {
-  return <div className="text-4xl">this is task management dash broad</div>;
+  return (
+    <div>
+      <Header />
+      <Center />
+    </div>
+  );
 }
 
 export default App;
