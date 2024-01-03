@@ -3,11 +3,20 @@ import { useSelector } from 'react-redux';
 import { GrTask } from 'react-icons/gr';
 import { CiDark, CiLight } from 'react-icons/ci';
 import { Switch } from '@headlessui/react';
+import useDarkMode from '../../Hooks/useDarkMode';
+import { useState } from 'react';
 
 const HeaderDropdown = (props) => {
   const boards = useSelector((state) => state.boards);
+  const [colorTheme, setTheme] = useDarkMode();
+  const [dark, setDark] = useState(colorTheme === 'light' ? true : false);
 
   const { setOpenDropDown } = props;
+
+  function toggleDarkMode(checked) {
+    setTheme(colorTheme);
+    setDark(checked);
+  }
 
   function closeDropdown() {
     setOpenDropDown(false);
@@ -41,7 +50,15 @@ const HeaderDropdown = (props) => {
 
           <div className="mx-2 p-4 space-x-2 bg-slate-100 dark:bg-customCharadeTwo flex justify-center items-center rounded-lg ">
             {/* Switch */}
-            <Switch></Switch>
+            <Switch
+              checked={dark}
+              onChange={toggleDarkMode}
+              className={`${dark ? 'bg-customBgBtn' : 'bg-gray-200'} relative inline-flex h-6 w-16 items-center rounded-full`}
+            >
+              <span
+                className={`${dark ? 'translate-x-10' : 'translate-x-1'} inline-block h-4 w-4 transform rounded-full bg-white transition-all `}
+              ></span>
+            </Switch>
           </div>
         </div>
 
