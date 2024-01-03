@@ -53,11 +53,15 @@ const HeaderDropdown = (props) => {
             <Switch
               checked={dark}
               onChange={toggleDarkMode}
-              className={`${dark ? 'bg-customBgBtn' : 'bg-gray-200'} relative inline-flex h-6 w-16 items-center rounded-full`}
+              className={`${dark ? 'bg-customBgBtn' : 'bg-gray-200'} relative inline-flex h-10 w-16 items-center rounded-full`}
             >
               <span
-                className={`${dark ? 'translate-x-10' : 'translate-x-1'} inline-block h-4 w-4 transform rounded-full bg-white transition-all `}
-              ></span>
+                className={`${
+                  dark ? 'translate-x-10' : 'translate-x-1'
+                } flex justify-center items-center h-5 w-5 transform rounded-full bg-white transition-all`}
+              >
+                {dark ? <CiDark size={20} /> : <CiLight size={20} />}
+              </span>
             </Switch>
           </div>
         </div>
