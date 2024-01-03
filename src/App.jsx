@@ -1,5 +1,5 @@
 function App() {
-  return <div>this is task management dash broad</div>;
+  return <div className="text-4xl">this is task management dash broad</div>;
 }
 
 export default App;
