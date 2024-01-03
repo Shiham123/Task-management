@@ -8,3 +8,5 @@ const boardsSlice = createSlice({
     // TODO: write our reducers here
   },
 });
+
+export default boardsSlice;

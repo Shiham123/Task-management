@@ -1,7 +1,8 @@
 import { useState } from 'react';
 import { IoIosArrowDropdown, IoIosArrowDropup, IoIosSettings } from 'react-icons/io';
 
-import logoTwo from '../../src/assets/logoTwo.jpg';
+import logoTwo from '../../assets/logoTwo.jpg';
+import HeaderDropdown from './HeaderDropdown';
 
 function Header() {
   const [openDropDown, setOpenDropDown] = useState(false);
@@ -9,6 +10,7 @@ function Header() {
   function handleDropDown() {
     setOpenDropDown(!openDropDown);
   }
+
   return (
     <div className="p-4 fixed left-0 bg-white dark:bg-darkPrimary z-0 right-5">
       <header className="flex justify-between dark:text-customWhite items-center">
@@ -32,13 +34,16 @@ function Header() {
 
         {/* right side */}
         <div className="flex space-x-4 items-center md:space-x-6">
-          <button className="button">+ add New task</button>
+          <button className="hidden md:block button">+ add New task</button>
         </div>
 
         <button className="button py-1 px-3 md:hidden">+</button>
 
         <IoIosSettings size={50} className="cursor-pointer h-10" />
+
+        {/*  */}
       </header>
+      {openDropDown && <HeaderDropdown setOpenDropDown={setOpenDropDown} />}
     </div>
   );
 }
