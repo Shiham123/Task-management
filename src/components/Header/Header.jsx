@@ -6,6 +6,7 @@ import logoTwo from '../../assets/logoTwo.jpg';
 import HeaderDropdown from './HeaderDropdown';
 import AddEditBoardModal from '../modals/AddEditBoardModal';
 import { useDispatch, useSelector } from 'react-redux';
+import AddEditTaskModal from '../modals/AddEditTaskModal';
 
 function Header(props) {
   const dispatch = useDispatch();
@@ -14,6 +15,7 @@ function Header(props) {
 
   const [openDropDown, setOpenDropDown] = useState(false);
   const [boardType, setBoardType] = useState('add');
+  const [openAddEditTask, setOpenAddEditTask] = useState(false);
 
   const boards = useSelector((state) => state.boards);
   const board = boards.find((board) => board.isActive);
@@ -48,7 +50,9 @@ function Header(props) {
           <button className="hidden md:block button">+ add New task</button>
         </div>
 
-        <button className="button py-1 px-3 md:hidden">+</button>
+        <button onClick={() => setOpenAddEditTask((state) => !state)} className="button py-1 px-3 md:hidden">
+          +
+        </button>
 
         <IoIosSettings size={50} className="cursor-pointer h-10" />
 
@@ -58,6 +62,9 @@ function Header(props) {
 
       {/* modal */}
       {boardModalOpen && <AddEditBoardModal type={boardType} setBoardModalOpen={setBoardModalOpen} />}
+
+      {/* add open edit task */}
+      {openAddEditTask && <AddEditTaskModal setOpenAddEditTask={setOpenAddEditTask} device="mobile" />}
     </div>
   );
 }

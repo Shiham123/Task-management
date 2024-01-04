@@ -38,7 +38,7 @@ const HeaderDropdown = (props) => {
             const { name, isActive, columns } = board;
             return (
               <div
-                className={`flex items-baseline dark:text-white space-x-2 px-5 py-4 mx-3 ${
+                className={`flex items-baseline dark:text-white space-x-2 px-5 py-4 mx-3 cursor-pointer ${
                   isActive && 'bg-customBgBtn rounded-full text-white mr-8'
                 }`}
                 key={index}
