@@ -2,15 +2,15 @@ import PropTypes from 'prop-types';
 import { useState } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 import { IoMdClose } from 'react-icons/io';
+import { useDispatch } from 'react-redux';
+import boardsSlice from '../../redux/boardsSlice';
 
 function AddEditBoardModal(props) {
+  const dispatch = useDispatch();
   const { setBoardModalOpen, type } = props;
   const [name, setName] = useState('');
-  const [newColumns, setNewColumns] = useState([
-    { name: 'Todo', task: [], id: uuidv4() },
-    { name: 'Doing', task: [], id: uuidv4() },
-    { name: 'Goal', task: [], id: uuidv4() },
-  ]);
+  const [newColumns, setNewColumns] = useState([{ name: 'Todo', task: [], id: uuidv4() }]);
+  const [isValid, setIsValid] = useState(true);
 
   const handleChange = (id, newValue) => {
     setNewColumns((prevState) => {
@@ -23,6 +23,29 @@ function AddEditBoardModal(props) {
 
   const handleDelete = (id) => {
     setNewColumns((perState) => perState.filter((el) => el.id !== id));
+  };
+
+  const validate = () => {
+    setIsValid(false);
+    if (!name.trim()) {
+      return false;
+    }
+    for (let i = 0; i < newColumns.length; i++) {
+      if (!newColumns[i].name.trim()) {
+        return false;
+      }
+    }
+    setIsValid(true);
+    return true;
+  };
+
+  const handleSubmit = (type) => {
+    setBoardModalOpen(false);
+    if (type === 'add') {
+      dispatch(boardsSlice.actions.addBoard({ name, newColumns }));
+    } else {
+      dispatch(boardsSlice.actions.editBoard({ name, newColumns }));
+    }
   };
 
   return (
@@ -62,6 +85,25 @@ function AddEditBoardModal(props) {
           })}
         </div>
 
+        {/* add new task */}
+        <div>
+          <button
+            onClick={() => setNewColumns((state) => [...state, { name: '', task: [], id: uuidv4() }])}
+            className="my-10 w-full items-center hover:opacity-75 dark:text-customBgBtn dark:bg-white text-white bg-customBgBtn py-2 rounded-full"
+          >
+            + Add New Column
+          </button>
+          <button
+            onClick={() => {
+              const isValid = validate();
+              if (isValid === false) handleSubmit(type);
+            }}
+            className="w-full items-center hover:opacity-75 dark:text-white dark:bg-customBgBtn relative text-white bg-customBgBtn py-2 rounded-full"
+          >
+            {type === 'add' ? 'Create new Board' : 'Save changes'}
+          </button>
+        </div>
+
         {/* modal close button */}
         <button className="button mt-10" onClick={() => setBoardModalOpen(false)}>
           Close Modal
@@ -75,5 +117,5 @@ export default AddEditBoardModal;
 
 AddEditBoardModal.propTypes = {
   setBoardModalOpen: PropTypes.func.isRequired,
-  type: PropTypes.any.isRequired,
+  type: PropTypes.string.isRequired,
 };

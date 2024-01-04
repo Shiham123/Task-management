@@ -10,6 +10,7 @@ function Header(props) {
   const { boardModalOpen, setBoardModalOpen } = props;
 
   const [openDropDown, setOpenDropDown] = useState(false);
+  const [boardType, setBoardType] = useState('add');
 
   function handleDropDown() {
     setOpenDropDown(!openDropDown);
@@ -50,7 +51,7 @@ function Header(props) {
       {openDropDown && <HeaderDropdown setBoardModalOpen={setBoardModalOpen} setOpenDropDown={setOpenDropDown} />}
 
       {/* modal */}
-      {boardModalOpen && <AddEditBoardModal setBoardModalOpen={setBoardModalOpen} />}
+      {boardModalOpen && <AddEditBoardModal type={boardType} setBoardModalOpen={setBoardModalOpen} />}
     </div>
   );
 }
