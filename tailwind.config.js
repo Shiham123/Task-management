@@ -1,4 +1,6 @@
 /** @type {import('tailwindcss').Config} */
+import scrollBarHide from 'tailwind-scrollbar-hide';
+
 export default {
   content: ['./index.html', './src/**/*.{js,ts,jsx,tsx}'],
   darkMode: 'class',
@@ -12,8 +14,9 @@ export default {
         customCharade: '#2b2c37',
         customTurquoiseBlue: '#364e7e',
         customCharadeTwo: '#20212c',
+        blueMarguerite: '#735fc7',
       },
     },
   },
-  plugins: [],
+  plugins: [scrollBarHide],
 };

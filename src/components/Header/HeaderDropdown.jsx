@@ -7,11 +7,11 @@ import useDarkMode from '../../Hooks/useDarkMode';
 import { useState } from 'react';
 
 const HeaderDropdown = (props) => {
+  const { setOpenDropDown, setBoardModalOpen } = props;
+
   const boards = useSelector((state) => state.boards);
   const [colorTheme, setTheme] = useDarkMode();
   const [dark, setDark] = useState(colorTheme === 'light' ? true : false);
-
-  const { setOpenDropDown } = props;
 
   function toggleDarkMode(checked) {
     setTheme(colorTheme);
@@ -31,10 +31,15 @@ const HeaderDropdown = (props) => {
         {/* boards map */}
         <div>
           {boards.map((board, index) => {
+            {
+              /* TODO: columns are not used it later will be use */
+            }
             const { name, isActive, columns } = board;
             return (
               <div
-                className={`flex items-baseline space-x-2 px-5 py-4 mx-3 ${isActive && 'bg-customBgBtn rounded-full text-white mr-8'}`}
+                className={`flex items-baseline dark:text-white space-x-2 px-5 py-4 mx-3 ${
+                  isActive && 'bg-customBgBtn rounded-full text-white mr-8'
+                }`}
                 key={index}
               >
                 <GrTask />
@@ -43,9 +48,15 @@ const HeaderDropdown = (props) => {
             );
           })}
 
-          <div className="flex items-center space-x-2 text-customBgBtn px-5 py-4 mx-3">
+          <div
+            onClick={() => {
+              setBoardModalOpen(true);
+              setOpenDropDown(false);
+            }}
+            className="flex items-center space-x-2 text-customBgBtn px-5 py-4 mx-3"
+          >
             <GrTask />
-            <p className="capitalize">Create new Board</p>
+            <p className="capitalize cursor-pointer">Create new Board</p>
           </div>
 
           <div className="mx-2 p-4 space-x-2 bg-slate-100 dark:bg-customCharadeTwo flex justify-center items-center rounded-lg ">
@@ -77,4 +88,7 @@ const HeaderDropdown = (props) => {
 
 export default HeaderDropdown;
 
-HeaderDropdown.propTypes = { setOpenDropDown: PropTypes.func.isRequired };
+HeaderDropdown.propTypes = {
+  setOpenDropDown: PropTypes.func.isRequired,
+  setBoardModalOpen: PropTypes.func.isRequired,
+};

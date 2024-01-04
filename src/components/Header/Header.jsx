@@ -1,10 +1,14 @@
+import PropTypes from 'prop-types';
 import { useState } from 'react';
 import { IoIosArrowDropdown, IoIosArrowDropup, IoIosSettings } from 'react-icons/io';
 
 import logoTwo from '../../assets/logoTwo.jpg';
 import HeaderDropdown from './HeaderDropdown';
+import AddEditBoardModal from '../modals/AddEditBoardModal';
 
-function Header() {
+function Header(props) {
+  const { boardModalOpen, setBoardModalOpen } = props;
+
   const [openDropDown, setOpenDropDown] = useState(false);
 
   function handleDropDown() {
@@ -43,9 +47,17 @@ function Header() {
 
         {/*  */}
       </header>
-      {openDropDown && <HeaderDropdown setOpenDropDown={setOpenDropDown} />}
+      {openDropDown && <HeaderDropdown setBoardModalOpen={setBoardModalOpen} setOpenDropDown={setOpenDropDown} />}
+
+      {/* modal */}
+      {boardModalOpen && <AddEditBoardModal setBoardModalOpen={setBoardModalOpen} />}
     </div>
   );
 }
 
 export default Header;
+
+Header.propTypes = {
+  boardModalOpen: PropTypes.bool.isRequired,
+  setBoardModalOpen: PropTypes.func.isRequired,
+};
