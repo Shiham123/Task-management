@@ -26,20 +26,14 @@ function AddEditBoardModal(props) {
     });
   };
 
-  const handleDelete = (id) => {
-    setNewColumns((perState) => perState.filter((el) => el.id !== id));
-  };
+  const handleDelete = (id) => setNewColumns((perState) => perState.filter((el) => el.id !== id));
 
   const validate = () => {
     setIsValid(false);
-    if (!name.trim()) {
-      return false;
-    }
-    for (let i = 0; i < newColumns.length; i++) {
-      if (!newColumns[i].name.trim()) {
-        return false;
-      }
-    }
+    if (!name.trim()) return false;
+
+    for (let i = 0; i < newColumns.length; i++) if (!newColumns[i].name.trim()) return false;
+
     setIsValid(true);
     return true;
   };
