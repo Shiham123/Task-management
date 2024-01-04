@@ -1,6 +1,7 @@
 import PropTypes from 'prop-types';
 import { useState } from 'react';
 import { v4 as uuidv4 } from 'uuid';
+import { IoMdClose } from 'react-icons/io';
 
 function AddEditBoardModal(props) {
   const { setBoardModalOpen, type } = props;
@@ -18,6 +19,10 @@ function AddEditBoardModal(props) {
       column.name = newValue;
       return newState;
     });
+  };
+
+  const handleDelete = (id) => {
+    setNewColumns((perState) => perState.filter((el) => el.id !== id));
   };
 
   return (
@@ -42,14 +47,16 @@ function AddEditBoardModal(props) {
         <div className="mt-8 flex flex-col space-y-3">
           <label className="text-sm dark:text-white text-gray-500">Boards columns</label>
           {newColumns.map((perColumn, index) => {
+            const { id } = perColumn;
             return (
               <div key={index} className="flex items-center w-full">
                 <input
                   className="bg-transparent flex-grow px-4 py-2 rounded-md text-sm border border-gray-600 outline-none focus:outline-blueMarguerite"
                   type="text"
-                  onChange={(event) => handleChange(perColumn.id, event.target.value)}
+                  onChange={(event) => handleChange(id, event.target.value)}
                   value={perColumn.name}
                 />
+                <IoMdClose onClick={() => handleDelete(id)} className="ml-3 cursor-pointer" size={25} />
               </div>
             );
           })}
