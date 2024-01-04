@@ -9,7 +9,12 @@ function AddEditBoardModal(props) {
   const dispatch = useDispatch();
   const { setBoardModalOpen, type } = props;
   const [name, setName] = useState('');
-  const [newColumns, setNewColumns] = useState([{ name: 'Todo', task: [], id: uuidv4() }]);
+  const [newColumns, setNewColumns] = useState([
+    { name: 'Todo', task: [], id: uuidv4() },
+    { name: 'Todo two', task: [], id: uuidv4() },
+    { name: 'Todo Three', task: [], id: uuidv4() },
+  ]);
+
   const [isValid, setIsValid] = useState(true);
 
   const handleChange = (id, newValue) => {
@@ -93,10 +98,12 @@ function AddEditBoardModal(props) {
           >
             + Add New Column
           </button>
+
+          {/* Create new Board */}
           <button
             onClick={() => {
               const isValid = validate();
-              if (isValid === false) handleSubmit(type);
+              if (isValid === true) handleSubmit(type);
             }}
             className="w-full items-center hover:opacity-75 dark:text-white dark:bg-customBgBtn relative text-white bg-customBgBtn py-2 rounded-full"
           >
