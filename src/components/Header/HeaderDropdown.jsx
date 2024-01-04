@@ -1,16 +1,20 @@
 import PropTypes from 'prop-types';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { GrTask } from 'react-icons/gr';
 import { CiDark, CiLight } from 'react-icons/ci';
 import { Switch } from '@headlessui/react';
 import useDarkMode from '../../Hooks/useDarkMode';
 import { useState } from 'react';
+import boardsSlice from '../../redux/boardsSlice';
 
 const HeaderDropdown = (props) => {
+  const dispatch = useDispatch();
+
   const { setOpenDropDown, setBoardModalOpen } = props;
 
   const boards = useSelector((state) => state.boards);
   const [colorTheme, setTheme] = useDarkMode();
+
   const [dark, setDark] = useState(colorTheme === 'light' ? true : false);
 
   function toggleDarkMode(checked) {
@@ -31,9 +35,6 @@ const HeaderDropdown = (props) => {
         {/* boards map */}
         <div>
           {boards.map((board, index) => {
-            {
-              /* TODO: columns are not used it later will be use */
-            }
             const { name, isActive, columns } = board;
             return (
               <div
@@ -41,6 +42,7 @@ const HeaderDropdown = (props) => {
                   isActive && 'bg-customBgBtn rounded-full text-white mr-8'
                 }`}
                 key={index}
+                onClick={() => dispatch(boardsSlice.actions.setBoardActive({ index }))}
               >
                 <GrTask />
                 <p>{name}</p>

@@ -9,11 +9,7 @@ function AddEditBoardModal(props) {
   const dispatch = useDispatch();
   const { setBoardModalOpen, type } = props;
   const [name, setName] = useState('');
-  const [newColumns, setNewColumns] = useState([
-    { name: 'Todo', task: [], id: uuidv4() },
-    { name: 'Todo two', task: [], id: uuidv4() },
-    { name: 'Todo Three', task: [], id: uuidv4() },
-  ]);
+  const [newColumns, setNewColumns] = useState([{ name: 'Todo', task: [], id: uuidv4() }]);
 
   const [isValid, setIsValid] = useState(true);
 

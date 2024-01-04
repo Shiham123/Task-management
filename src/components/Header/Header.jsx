@@ -5,12 +5,18 @@ import { IoIosArrowDropdown, IoIosArrowDropup, IoIosSettings } from 'react-icons
 import logoTwo from '../../assets/logoTwo.jpg';
 import HeaderDropdown from './HeaderDropdown';
 import AddEditBoardModal from '../modals/AddEditBoardModal';
+import { useDispatch, useSelector } from 'react-redux';
 
 function Header(props) {
+  const dispatch = useDispatch();
+
   const { boardModalOpen, setBoardModalOpen } = props;
 
   const [openDropDown, setOpenDropDown] = useState(false);
   const [boardType, setBoardType] = useState('add');
+
+  const boards = useSelector((state) => state.boards);
+  const board = boards.find((board) => board.isActive);
 
   function handleDropDown() {
     setOpenDropDown(!openDropDown);
@@ -27,7 +33,7 @@ function Header(props) {
 
           <div className="flex item-center">
             <div className="truncate max-w-[200px] md:text-2xl text-xl font-bold md:ml-20 font-sans">
-              <h3>board Name</h3>
+              <h3>{board?.name}</h3>
             </div>
             {openDropDown ? (
               <IoIosArrowDropdown size={30} className="md:hidden cursor-pointer" onClick={handleDropDown} />
