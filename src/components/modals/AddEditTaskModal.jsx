@@ -2,12 +2,15 @@ import PropTypes from 'prop-types';
 import { useState } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 import { IoMdClose } from 'react-icons/io';
+import { useSelector } from 'react-redux';
 
 function AddEditTaskModal(props) {
   const { type, device, setOpenAddEditTask } = props;
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
   const [subTasks, setSubTasks] = useState([{ title: '', isCompleted: false, id: uuidv4() }]);
+
+  const board = useSelector((state) => state.boards).find((board) => board.isActive);
 
   function handleDelete(id) {
     setSubTasks((prevTask) => prevTask.filter((el) => el.id !== id));
@@ -91,9 +94,14 @@ function AddEditTaskModal(props) {
         </button>
 
         {/* current status section */}
-        <div className="mt-8 flex flex-col  space-y-3">
+        <div className="mt-8 flex flex-col space-y-3">
           <label className="text-sm dark:text-white text-gray-500">Current status</label>
-          <select className="select-status"></select>
+          <select className="select-status flex-grow px-4 py-2 rounded-md text-sm bg-transparent focus:border-0 border border-gray-300 focus:outline-customBgBtn outline-none">
+            {board?.columns?.map((item, index) => {
+              const { name } = item;
+              return <option key={index}>{name}</option>;
+            })}
+          </select>
         </div>
 
         {/* close button */}
