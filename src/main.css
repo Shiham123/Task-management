@@ -8,3 +8,10 @@
     @apply bg-customBgBtn py-2 px-4 rounded-full text-customWhite text-lg font-semibold hover:opacity-80 duration-200 font-sans capitalize;
   }
 }
+
+.select-status {
+  background-image: url('./assets/chevron-left.svg');
+  appearance: none;
+  background-repeat: no-repeat;
+  background-position: right 16px top 50%;
+}

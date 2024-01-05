@@ -9,6 +9,19 @@ function AddEditTaskModal(props) {
   const [description, setDescription] = useState('');
   const [subTasks, setSubTasks] = useState([{ title: '', isCompleted: false, id: uuidv4() }]);
 
+  function handleDelete(id) {
+    setSubTasks((prevTask) => prevTask.filter((el) => el.id !== id));
+  }
+
+  function handleChange(id, value) {
+    setSubTasks((prevTask) => {
+      const newSubTask = [...prevTask];
+      const column = newSubTask.find((column) => column.id === id);
+      column.name = value;
+      return newSubTask;
+    });
+  }
+
   return (
     <div
       className={`${
@@ -53,15 +66,34 @@ function AddEditTaskModal(props) {
             return (
               <div key={index} className="flex items-center w-full">
                 <input
+                  onChange={(e) => {
+                    handleChange(id, e.target.value);
+                  }}
                   type="text"
                   value={title}
                   className="bg-transparent outline-none border focus:border-0 flex-grow px-4 py-2 rounded-lg text-sm border-gray-600 focus:outline-customBgBtn"
                   placeholder="e.g take coffee break"
                 />
-                <IoMdClose className="ml-3 cursor-pointer" size={25} />
+                <IoMdClose onClick={() => handleDelete(id)} className="ml-3 cursor-pointer" size={25} />
               </div>
             );
           })}
+        </div>
+
+        {/* add sub task button */}
+        <button
+          onClick={() => {
+            setSubTasks((state) => [...state, { title: '', isCompleted: false, id: uuidv4() }]);
+          }}
+          className="w-full my-4 items-center dark:text-customBgBtn dark:bg-white text-white bg-customBgBtn py-2 rounded-full "
+        >
+          + Add New SubTask
+        </button>
+
+        {/* current status section */}
+        <div className="mt-8 flex flex-col  space-y-3">
+          <label className="text-sm dark:text-white text-gray-500">Current status</label>
+          <select className="select-status"></select>
         </div>
 
         {/* close button */}
