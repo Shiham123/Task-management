@@ -29,6 +29,8 @@ const boardsSlice = createSlice({
         return board;
       });
     },
+
+    // TODO: add here addTask redux toolkit function
   },
 });
 

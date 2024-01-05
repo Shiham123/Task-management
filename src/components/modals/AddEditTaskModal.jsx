@@ -2,13 +2,17 @@ import PropTypes from 'prop-types';
 import { useState } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 import { IoMdClose } from 'react-icons/io';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import boardsSlice from '../../redux/boardsSlice';
 
 function AddEditTaskModal(props) {
   const { type, device, setOpenAddEditTask } = props;
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
   const [subTasks, setSubTasks] = useState([{ title: '', isCompleted: false, id: uuidv4() }]);
+  const [isValid, setIsValid] = useState(true);
+
+  const dispatch = useDispatch(boardsSlice);
 
   const board = useSelector((state) => state.boards).find((board) => board.isActive);
 
@@ -23,6 +27,24 @@ function AddEditTaskModal(props) {
       column.name = value;
       return newSubTask;
     });
+  }
+
+  function validate() {
+    setIsValid(false);
+    if (!title.trim()) return false;
+    for (let i = 0; i < subTasks.length; i++) {
+      if (!subTasks[i].name.trim()) return false;
+    }
+
+    setIsValid(true);
+    return true;
+  }
+
+  function handleSubmit(type) {
+    // TODO: working here
+    if (type === 'add') {
+      dispatch(boardsSlice.actions.addTask());
+    }
   }
 
   return (
@@ -99,9 +121,26 @@ function AddEditTaskModal(props) {
           <select className="select-status flex-grow px-4 py-2 rounded-md text-sm bg-transparent focus:border-0 border border-gray-300 focus:outline-customBgBtn outline-none">
             {board?.columns?.map((item, index) => {
               const { name } = item;
-              return <option key={index}>{name}</option>;
+              return (
+                <option className="dark:bg-customCharade" value={name} key={index}>
+                  {name}
+                </option>
+              );
             })}
           </select>
+
+          <button
+            onClick={() => {
+              const isValid = validate();
+              if (isValid) {
+                // TODO: working here
+                handleSubmit(type);
+              }
+            }}
+            className="w-full items-center text-white bg-customBgBtn py-2 rounded-full"
+          >
+            {type === 'edit' ? 'save edit' : 'Create task'}
+          </button>
         </div>
 
         {/* close button */}
