@@ -1,10 +1,13 @@
 import PropTypes from 'prop-types';
 import { useState } from 'react';
+import { v4 as uuidv4 } from 'uuid';
+import { IoMdClose } from 'react-icons/io';
 
 function AddEditTaskModal(props) {
-  const { type, device, setOpenAddEditTask } = props; // ?props
+  const { type, device, setOpenAddEditTask } = props;
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
+  const [subTasks, setSubTasks] = useState([{ title: '', isCompleted: false, id: uuidv4() }]);
 
   return (
     <div
@@ -40,6 +43,25 @@ function AddEditTaskModal(props) {
             className="bg-transparent px-4 py-2 outline-none focus:border-0 min-h-[200px] rounded-sm text-sm border border-gray-600 focus:outline-customBgBtn ring-0"
             placeholder="e.g it always good to take a break. this 15 minute break will recharge the batteries a little"
           />
+        </div>
+
+        {/* sub task section */}
+        <div className="mt-8 flex flex-col space-y-1">
+          <label className="text-sm dark:text-white text-gray-500">Subtasks</label>
+          {subTasks.map((subTask, index) => {
+            const { title, isCompleted, id } = subTask;
+            return (
+              <div key={index} className="flex items-center w-full">
+                <input
+                  type="text"
+                  value={title}
+                  className="bg-transparent outline-none border focus:border-0 flex-grow px-4 py-2 rounded-lg text-sm border-gray-600 focus:outline-customBgBtn"
+                  placeholder="e.g take coffee break"
+                />
+                <IoMdClose className="ml-3 cursor-pointer" size={25} />
+              </div>
+            );
+          })}
         </div>
 
         {/* close button */}
