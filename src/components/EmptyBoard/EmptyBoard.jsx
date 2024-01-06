@@ -12,15 +12,14 @@ function EmptyBoard(props) {
       <h3 className="text-gray-500 font-bold">
         {type === 'edit' ? 'The board is empty. Create a new one.' : 'There are no boards available, create a new board to get started'}
       </h3>
-      <button className="w-full items-center max-w-xs font-bold hover:opacity-70 dark:text-white dark:bg-customBgBtn mt-8 relative text-white bg-customBgBtn py-2 rounded-full">
+      <button
+        onClick={() => setIsBoardModalOpen(true)}
+        className="w-full items-center max-w-xs font-bold hover:opacity-70 dark:text-white dark:bg-customBgBtn mt-8 relative text-white bg-customBgBtn py-2 rounded-full"
+      >
         {type === 'edit' ? '+ Add new Column' : '+ Add New Board'}
       </button>
 
-      {isBoardModalOpen && (
-        <>
-          <AddEditBoardModal type={type} setBoardModalOpen={setIsBoardModalOpen} />
-        </>
-      )}
+      {isBoardModalOpen && <AddEditBoardModal type={type} setBoardModalOpen={setIsBoardModalOpen} />}
     </div>
   );
 }
