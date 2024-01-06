@@ -1,7 +1,6 @@
 import PropTypes from 'prop-types';
 
 function EllipsisMenu(props) {
-  console.log(props);
   const { type } = props; // ! props all extracted here
   return (
     <div className={type === 'Boards' ? 'absolute top-16 right-5' : 'absolute top-6 right-4'}>
