@@ -1,25 +1,32 @@
+// !import cdn file
 import PropTypes from 'prop-types';
 import { useState } from 'react';
 import { IoIosArrowDropdown, IoIosArrowDropup, IoIosSettings } from 'react-icons/io';
+import { useDispatch, useSelector } from 'react-redux';
 
+// !all file are imported here
 import logoTwo from '../../assets/logoTwo.jpg';
 import HeaderDropdown from './HeaderDropdown';
 import AddEditBoardModal from '../modals/AddEditBoardModal';
-import { useDispatch, useSelector } from 'react-redux';
 import AddEditTaskModal from '../modals/AddEditTaskModal';
 
+// !component start here
 function Header(props) {
-  const dispatch = useDispatch();
+  const dispatch = useDispatch(); // redux data dispatch here
 
-  const { boardModalOpen, setBoardModalOpen } = props;
+  const { boardModalOpen, setBoardModalOpen } = props; // props extract here
 
+  //  ! all state are declared here
   const [openDropDown, setOpenDropDown] = useState(false);
-  const [boardType, setBoardType] = useState('add');
   const [openAddEditTask, setOpenAddEditTask] = useState(false);
+  const [isElipsisOpen, setElipsisOpen] = useState(false);
+  const [boardType, setBoardType] = useState('add');
 
+  // ? finding the is active method
   const boards = useSelector((state) => state.boards);
   const board = boards.find((board) => board.isActive);
 
+  // ! some handle function
   function handleDropDown() {
     setOpenDropDown(!openDropDown);
   }
@@ -55,15 +62,14 @@ function Header(props) {
         </button>
 
         <IoIosSettings size={50} className="cursor-pointer h-10" />
-
-        {/*  */}
       </header>
+
+      {/* ! other file that are attached with this file or from this file */}
+
       {openDropDown && <HeaderDropdown setBoardModalOpen={setBoardModalOpen} setOpenDropDown={setOpenDropDown} />}
 
-      {/* modal */}
       {boardModalOpen && <AddEditBoardModal type={boardType} setBoardModalOpen={setBoardModalOpen} />}
 
-      {/* add open edit task */}
       {openAddEditTask && <AddEditTaskModal setOpenAddEditTask={setOpenAddEditTask} device="mobile" type="add" />}
     </div>
   );

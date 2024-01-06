@@ -1,13 +1,17 @@
+// ! other cdn import file
 import PropTypes from 'prop-types';
 import { useState } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 import { IoMdClose } from 'react-icons/io';
+
+// ! redux import file
 import { useDispatch, useSelector } from 'react-redux';
 import boardsSlice from '../../redux/boardsSlice';
 
 function AddEditTaskModal(props) {
-  const { type, device, taskIndex, setOpenAddEditTask, perColIndex = 0 } = props;
+  const { type, device, taskIndex, setOpenAddEditTask, perColIndex = 0 } = props; // !all props are extracted here
 
+  // ! some state declared here
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
   const [subTasks, setSubTasks] = useState([{ title: '', isCompleted: false, id: uuidv4() }]);
