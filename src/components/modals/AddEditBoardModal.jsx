@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 import { useState } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 import { IoMdClose } from 'react-icons/io';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import boardsSlice from '../../redux/boardsSlice';
 
 function AddEditBoardModal(props) {
@@ -10,8 +10,20 @@ function AddEditBoardModal(props) {
   const { setBoardModalOpen, type } = props;
   const [name, setName] = useState('');
   const [newColumns, setNewColumns] = useState([{ name: 'Todo', task: [], id: uuidv4() }]);
-
   const [isValid, setIsValid] = useState(true);
+  const [isFirstLoad, setIsFirstLoad] = useState(true);
+  const board = useSelector((state) => state.boards).find((board) => board.isActive);
+
+  if (type === 'edit' && isFirstLoad) {
+    setNewColumns(
+      board.columns.map((col) => {
+        return { ...col, id: uuidv4() };
+      })
+    );
+
+    setName(board.name);
+    setIsFirstLoad(false);
+  }
 
   const handleChange = (id, newValue) => {
     setNewColumns((prevState) => {
@@ -65,14 +77,14 @@ function AddEditBoardModal(props) {
         <div className="mt-8 flex flex-col space-y-3">
           <label className="text-sm dark:text-white text-gray-500">Boards columns</label>
           {newColumns.map((perColumn, index) => {
-            const { id } = perColumn;
+            const { id, name } = perColumn;
             return (
               <div key={index} className="flex items-center w-full">
                 <input
                   className="bg-transparent flex-grow px-4 py-2 rounded-md text-sm border border-gray-600 outline-none focus:outline-blueMarguerite"
                   type="text"
                   onChange={(event) => handleChange(id, event.target.value)}
-                  value={perColumn.name}
+                  value={name}
                 />
                 <IoMdClose onClick={() => handleDelete(id)} className="ml-3 cursor-pointer" size={25} />
               </div>

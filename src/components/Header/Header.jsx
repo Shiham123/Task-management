@@ -9,7 +9,6 @@ import logoTwo from '../../assets/logoTwo.jpg';
 import HeaderDropdown from './HeaderDropdown';
 import AddEditBoardModal from '../modals/AddEditBoardModal';
 import AddEditTaskModal from '../modals/AddEditTaskModal';
-import EllipsisOpen from '../Ellipsis/EllipsisMenu';
 import EllipsisMenu from '../Ellipsis/EllipsisMenu';
 
 // !component start here
@@ -23,10 +22,23 @@ function Header(props) {
   const [openAddEditTask, setOpenAddEditTask] = useState(false);
   const [isEllipsisOpen, setIsEllipsisOpen] = useState(false);
   const [boardType, setBoardType] = useState('add');
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
 
   // ? finding the is active method
   const boards = useSelector((state) => state.boards);
   const board = boards.find((board) => board.isActive);
+
+  // ? modal open based on edit
+  function openEditModal() {
+    setBoardModalOpen(true);
+    setIsEllipsisOpen(false);
+  }
+
+  // ? setOpenDelete
+  function openDeleteModal() {
+    setIsDeleteModalOpen(true);
+    setIsEllipsisOpen(false);
+  }
 
   // ! some handle function
   function handleDropDown() {
@@ -73,7 +85,7 @@ function Header(props) {
           />
         </div>
 
-        {isEllipsisOpen && <EllipsisMenu type="Boards" />}
+        {isEllipsisOpen && <EllipsisMenu openEditModal={openEditModal} openDeleteModal={openDeleteModal} type="Boards" />}
       </header>
 
       {/* ! other file that are attached with this file or from this file */}
