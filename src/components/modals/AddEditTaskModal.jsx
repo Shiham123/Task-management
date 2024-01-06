@@ -19,7 +19,7 @@ function AddEditTaskModal(props) {
 
   const dispatch = useDispatch(boardsSlice);
 
-  const board = useSelector((state)  => state.boards).find((board) => board.isActive);
+  const board = useSelector((state) => state.boards).find((board) => board.isActive);
 
   const columns = board.columns;
   const col = columns.find((col, index) => index === perColIndex);
