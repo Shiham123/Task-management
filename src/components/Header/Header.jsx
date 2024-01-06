@@ -38,7 +38,9 @@ function Header(props) {
   }
 
   function handleDropDown() {
-    setOpenDropDown(!openDropDown);
+    setOpenDropDown((state) => !state);
+    setIsEllipsisOpen(false);
+    setBoardType('add');
   }
 
   function deleteBtnClick() {
