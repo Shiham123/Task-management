@@ -9,6 +9,8 @@ import logoTwo from '../../assets/logoTwo.jpg';
 import HeaderDropdown from './HeaderDropdown';
 import AddEditBoardModal from '../modals/AddEditBoardModal';
 import AddEditTaskModal from '../modals/AddEditTaskModal';
+import EllipsisOpen from '../Ellipsis/EllipsisMenu';
+import EllipsisMenu from '../Ellipsis/EllipsisMenu';
 
 // !component start here
 function Header(props) {
@@ -19,7 +21,7 @@ function Header(props) {
   //  ! all state are declared here
   const [openDropDown, setOpenDropDown] = useState(false);
   const [openAddEditTask, setOpenAddEditTask] = useState(false);
-  const [isElipsisOpen, setElipsisOpen] = useState(false);
+  const [isEllipsisOpen, setIsEllipsisOpen] = useState(false);
   const [boardType, setBoardType] = useState('add');
 
   // ? finding the is active method
@@ -55,13 +57,23 @@ function Header(props) {
         {/* right side */}
         <div className="flex space-x-4 items-center md:space-x-6">
           <button className="hidden md:block button">+ add New task</button>
+
+          <button onClick={() => setOpenAddEditTask((state) => !state)} className="button py-1 px-3 md:hidden">
+            +
+          </button>
+
+          <IoIosSettings
+            onClick={() => {
+              setBoardType('edit');
+              setOpenDropDown(false);
+              setIsEllipsisOpen((state) => !state);
+            }}
+            size={50}
+            className="cursor-pointer h-10 hover:border rounded-lg"
+          />
         </div>
 
-        <button onClick={() => setOpenAddEditTask((state) => !state)} className="button py-1 px-3 md:hidden">
-          +
-        </button>
-
-        <IoIosSettings size={50} className="cursor-pointer h-10" />
+        {isEllipsisOpen && <EllipsisMenu type="Boards" />}
       </header>
 
       {/* ! other file that are attached with this file or from this file */}

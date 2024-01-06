@@ -15,6 +15,7 @@ export default {
         customTurquoiseBlue: '#364e7e',
         customCharadeTwo: '#20212c',
         blueMarguerite: '#735fc7',
+        darkBgColor: '#20212c',
       },
     },
   },
