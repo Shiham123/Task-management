@@ -6,7 +6,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import boardsSlice from '../../redux/boardsSlice';
 
 function AddEditTaskModal(props) {
-  const { type, device, setOpenAddEditTask } = props;
+  const { type, device, taskIndex, setOpenAddEditTask, perColIndex = 0 } = props;
+
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
   const [subTasks, setSubTasks] = useState([{ title: '', isCompleted: false, id: uuidv4() }]);
@@ -16,16 +17,22 @@ function AddEditTaskModal(props) {
 
   const board = useSelector((state) => state.boards).find((board) => board.isActive);
 
+  const columns = board.columns;
+  const col = columns.find((col, index) => index === perColIndex);
+
+  const [status, setStatus] = useState(columns[perColIndex].name);
+  const [newColIndex, setNewColIndex] = useState(perColIndex);
+
   function handleDelete(id) {
     setSubTasks((prevTask) => prevTask.filter((el) => el.id !== id));
   }
 
   function handleChange(id, value) {
-    setSubTasks((prevTask) => {
-      const newSubTask = [...prevTask];
-      const column = newSubTask.find((column) => column.id === id);
-      column.name = value;
-      return newSubTask;
+    setSubTasks((prevState) => {
+      const newState = [...prevState];
+      const subtasks = newState.find((perTask) => perTask.id === id);
+      subtasks.title = value;
+      return newState;
     });
   }
 
@@ -33,7 +40,7 @@ function AddEditTaskModal(props) {
     setIsValid(false);
     if (!title.trim()) return false;
     for (let i = 0; i < subTasks.length; i++) {
-      if (!subTasks[i].name.trim()) return false;
+      if (!subTasks[i].title.trim()) return false;
     }
 
     setIsValid(true);
@@ -41,10 +48,17 @@ function AddEditTaskModal(props) {
   }
 
   function handleSubmit(type) {
-    // TODO: working here
     if (type === 'add') {
-      dispatch(boardsSlice.actions.addTask());
+      dispatch(boardsSlice.actions.addTask({ title, description, subTasks, status, newColIndex }));
+    } else {
+      dispatch(boardsSlice.actions.editTask({ title, description, subTasks, status, taskIndex, perColIndex, newColIndex }));
     }
+  }
+
+  // status handle function
+  function handleStatus(e) {
+    setStatus(e.target.value);
+    setNewColIndex(e.target.selectedIndex);
   }
 
   return (
@@ -87,7 +101,7 @@ function AddEditTaskModal(props) {
         <div className="mt-8 flex flex-col space-y-1">
           <label className="text-sm dark:text-white text-gray-500">Subtasks</label>
           {subTasks.map((subTask, index) => {
-            const { title, isCompleted, id } = subTask;
+            const { title, id } = subTask;
             return (
               <div key={index} className="flex items-center w-full">
                 <input
@@ -118,7 +132,11 @@ function AddEditTaskModal(props) {
         {/* current status section */}
         <div className="mt-8 flex flex-col space-y-3">
           <label className="text-sm dark:text-white text-gray-500">Current status</label>
-          <select className="select-status flex-grow px-4 py-2 rounded-md text-sm bg-transparent focus:border-0 border border-gray-300 focus:outline-customBgBtn outline-none">
+          <select
+            value={status}
+            onChange={(e) => handleStatus(e)}
+            className="select-status flex-grow px-4 py-2 rounded-md text-sm bg-transparent focus:border-0 border border-gray-300 focus:outline-customBgBtn outline-none"
+          >
             {board?.columns?.map((item, index) => {
               const { name } = item;
               return (
@@ -133,8 +151,8 @@ function AddEditTaskModal(props) {
             onClick={() => {
               const isValid = validate();
               if (isValid) {
-                // TODO: working here
                 handleSubmit(type);
+                setOpenAddEditTask(false);
               }
             }}
             className="w-full items-center text-white bg-customBgBtn py-2 rounded-full"
@@ -163,4 +181,5 @@ export default AddEditTaskModal;
 AddEditTaskModal.propTypes = {
   device: PropTypes.string.isRequired,
   setOpenAddEditTask: PropTypes.bool.isRequired,
+  type: PropTypes.string.isRequired,
 };
