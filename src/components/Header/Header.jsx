@@ -72,7 +72,9 @@ function Header(props) {
 
         {/* right side */}
         <div className="flex space-x-4 items-center md:space-x-6">
-          <button className="hidden md:block button">+ add New task</button>
+          <button onClick={() => setOpenAddEditTask((state) => !state)} className="hidden md:block button">
+            + add New task
+          </button>
 
           <button onClick={() => setOpenAddEditTask((state) => !state)} className="button py-1 px-3 md:hidden">
             +
