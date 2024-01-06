@@ -10,6 +10,9 @@ import AddEditTaskModal from '../modals/AddEditTaskModal';
 import EllipsisMenu from '../Ellipsis/EllipsisMenu';
 import DeleteModal from '../DeleteModal/DeleteModal';
 
+// redux
+import boardsSlice from '../../redux/boardsSlice';
+
 function Header(props) {
   const dispatch = useDispatch();
 
@@ -36,6 +39,12 @@ function Header(props) {
 
   function handleDropDown() {
     setOpenDropDown(!openDropDown);
+  }
+
+  function deleteBtnClick() {
+    dispatch(boardsSlice.actions.deleteBoard());
+    dispatch(boardsSlice.actions.setBoardActive({ index: 0 }));
+    setIsDeleteModalOpen(false);
   }
 
   return (
@@ -80,7 +89,9 @@ function Header(props) {
 
         {isEllipsisOpen && <EllipsisMenu openEditModal={openEditModal} openDeleteModal={openDeleteModal} type="Boards" />}
 
-        {isDeleteModalOpen && <DeleteModal setIsDeleteModalOpen={setIsDeleteModalOpen} title={board.name} type={boardType} />}
+        {isDeleteModalOpen && (
+          <DeleteModal deleteBtnClick={deleteBtnClick} setIsDeleteModalOpen={setIsDeleteModalOpen} title={board.name} type={boardType} />
+        )}
       </header>
 
       {openDropDown && <HeaderDropdown setBoardModalOpen={setBoardModalOpen} setOpenDropDown={setOpenDropDown} />}

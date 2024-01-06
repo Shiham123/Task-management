@@ -56,6 +56,12 @@ const boardsSlice = createSlice({
       const newCol = board.columns.find((col, index) => index === newColIndex);
       newCol.tasks.push(task);
     },
+
+    // ! delete board
+    deleteBoard: (state) => {
+      const board = state.find((board) => board.isActive);
+      state.splice(state.indexOf(board), 1);
+    },
   },
 });
 

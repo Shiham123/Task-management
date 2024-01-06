@@ -25,8 +25,13 @@ function DeleteModal(props) {
         )}
 
         <div className="flex w-full mt-4 items-center justify-center space-x-4">
-          <button className="w-full items-center text-white hover:opacity-75 font-semibold bg-red-500 py-2 rounded-full">Delete</button>
-          <button className="w-full items-center text-customBgBtn hover:opacity-75 font-semibold bg-customCharade/10 py-2 rounded-full">
+          <button onClick={deleteBtnClick} className="w-full items-center text-white hover:opacity-75 font-semibold bg-red-500 py-2 rounded-full">
+            Delete
+          </button>
+          <button
+            onClick={() => setIsDeleteModalOpen(false)}
+            className="w-full items-center text-customBgBtn hover:opacity-75 font-semibold bg-customCharade/10 py-2 rounded-full"
+          >
             Cancel
           </button>
         </div>
@@ -41,4 +46,5 @@ DeleteModal.propTypes = {
   type: PropTypes.string.isRequired,
   title: PropTypes.string.isRequired,
   setIsDeleteModalOpen: PropTypes.func.isRequired,
+  deleteBtnClick: PropTypes.func.isRequired,
 };
