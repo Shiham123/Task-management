@@ -2,6 +2,7 @@ import PropTypes from 'prop-types';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { shuffle } from 'lodash';
+import Task from '../Task/Task';
 
 function Column(props) {
   const { colIndex } = props;
@@ -21,7 +22,7 @@ function Column(props) {
   const dispatch = useDispatch();
   const boards = useSelector((state) => state.boards);
   const board = boards.find((board) => board.isActive);
-  const col = board.columns.find((col, idx) => idx === colIndex);
+  const column = board.columns.find((col, idx) => idx === colIndex);
 
   useEffect(() => {
     const colors = [
@@ -42,7 +43,12 @@ function Column(props) {
     <div className="scrollbar-hide mx-5 pt-[90px] min-w-[280px]">
       <p className="font-semibold flex items-center gap-2 tracking-widest md:tracking-[2em] text-centerText">
         <div className={`rounded-full w-4 h-4 ${color}`} />
+        {column.name} ({column.tasks.length})
       </p>
+
+      {column.tasks.map((task, index) => {
+        return <Task key={index} taskIndex={index} colIndex={colIndex} />;
+      })}
     </div>
   );
 }
