@@ -3,6 +3,7 @@ import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { IoEllipsisVertical } from 'react-icons/io5';
 import EllipsisMenu from '../Ellipsis/EllipsisMenu';
+import Subtask from '../Subtask/Subtask';
 
 function TaskModal(props) {
   const { colIndex, taskIndex, setIsTaskModalOpen } = props;
@@ -21,7 +22,7 @@ function TaskModal(props) {
     if (subtask.isCompleted) completed++;
   });
 
-  const [status, setStatue] = useState(task.status);
+  const [status, setStatus] = useState(task.status);
   const [newColIndex, setNewColIndex] = useState(columns.indexOf(col));
   const [ellipsisMenuOpen, setEllipsisMenuOpen] = useState(false);
 
@@ -31,6 +32,11 @@ function TaskModal(props) {
 
   function openDeleteModal() {
     // TODO: will write some code
+  }
+
+  function handleChange(e) {
+    setStatus(e.target.value);
+    setNewColIndex(e.target.selectedIndex);
   }
 
   return (
@@ -47,6 +53,31 @@ function TaskModal(props) {
         </div>
 
         <p className="text-gray-500 font-semibold tracking-wide text-sm pt-6">{task.description}</p>
+
+        <p className="pt-6 text-gray-500 tracking-widest text-sm">
+          Subtasks ({completed} of {subtasks.length})
+        </p>
+
+        <div className="mt-3 space-y-2">
+          {subtasks.map((subtask, index) => {
+            const { isCompleted, title } = subtask;
+            return <Subtask key={index} index={index} taskIndex={taskIndex} colIndex={colIndex} />;
+          })}
+        </div>
+
+        <div className="mt-8 flex flex-col space-y-3">
+          <label className="text-sm dark:text-white text-gray-500">Current status</label>
+          <select
+            className="select-status flex-grow px-4 py-2 rounded-md text-sm bg-transparent focus:border-0 border border-gray-300 focus:outline-customBgBtn outline-none"
+            value={status}
+            onChange={(e) => handleChange(e)}
+          >
+            {columns.map((column, index) => {
+              const { name } = column;
+              return <option key={index}>{name}</option>;
+            })}
+          </select>
+        </div>
       </div>
     </div>
   );
