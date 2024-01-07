@@ -72,6 +72,23 @@ const boardsSlice = createSlice({
       const subtask = task.subtasks.find((subtask, idx) => idx === payload.index);
       subtask.isCompleted = !subtask.isCompleted;
     },
+
+    // ! set task status
+    setTaskStatus: (state, action) => {
+      const payload = action.payload;
+      const board = state.find((board) => board.isActive);
+      const columns = board.columns;
+      const col = columns.find((col, idx) => idx === payload.colIndex);
+
+      if (payload.colIndex === payload.newColIndex) return;
+
+      const task = col.tasks.find((task, idx) => idx === payload.taskIndex);
+      task.status = payload.status;
+      col.tasks = col.tasks.filter((task, idx) => idx !== payload.taskIndex);
+
+      const newCol = columns.find((col, idx) => idx === payload.newColIndex);
+      newCol.tasks.push(task);
+    },
   },
 });
 

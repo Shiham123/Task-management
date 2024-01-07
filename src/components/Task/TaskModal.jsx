@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { IoEllipsisVertical } from 'react-icons/io5';
 import EllipsisMenu from '../Ellipsis/EllipsisMenu';
 import Subtask from '../Subtask/Subtask';
+import boardsSlice from '../../redux/boardsSlice';
 
 function TaskModal(props) {
   const { colIndex, taskIndex, setIsTaskModalOpen } = props;
@@ -25,6 +26,7 @@ function TaskModal(props) {
   const [status, setStatus] = useState(task.status);
   const [newColIndex, setNewColIndex] = useState(columns.indexOf(col));
   const [ellipsisMenuOpen, setEllipsisMenuOpen] = useState(false);
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
 
   function openEditModal() {
     // TODO: here write some function
@@ -39,8 +41,16 @@ function TaskModal(props) {
     setNewColIndex(e.target.selectedIndex);
   }
 
+  function closeDeleteModal(e) {
+    if (e.targe === !e.currentTarget) return;
+    // dispatch(boardsSlice.actions.setTask)
+  }
+
   return (
-    <div className="fixed right-0 left-0 top-0 bottom-0 px-2 py-4 overflow-scroll scrollbar-hide z-50 justify-center items-center flex bg-black/50">
+    <div
+      onClick={(e) => closeDeleteModal(e)}
+      className="fixed right-0 left-0 top-0 bottom-0 px-2 py-4 overflow-scroll scrollbar-hide z-50 justify-center items-center flex bg-black/50"
+    >
       {/* modal div */}
 
       <div className="scrollbar-hide overflow-y-scroll max-h-[95vh] my-auto bg-white dark:bg-customCharade text-black dark:text-white font-bold shadow-md shadow-customTurquoiseBlue max-w-md mx-auto w-full px-8 py-8 rounded-xl">
