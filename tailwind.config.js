@@ -16,6 +16,8 @@ export default {
         customCharadeTwo: '#20212c',
         blueMarguerite: '#735fc7',
         darkBgColor: '#20212c',
+        bgSidebar: '#f4f7fd',
+        centerText: '#828fa3',
       },
     },
   },
