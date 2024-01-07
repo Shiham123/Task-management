@@ -43,7 +43,7 @@ function TaskModal(props) {
 
   function closeDeleteModal(e) {
     if (e.targe === !e.currentTarget) return;
-    // dispatch(boardsSlice.actions.setTask)
+    dispatch(boardsSlice.actions.setTaskStatus({ taskIndex, colIndex, newColIndex, status }));
   }
 
   return (
