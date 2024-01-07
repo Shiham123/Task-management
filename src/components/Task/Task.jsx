@@ -1,6 +1,7 @@
 import PropTypes from 'prop-types';
 import { useState } from 'react';
 import { useSelector } from 'react-redux';
+import TaskModal from './TaskModal';
 
 function Task(props) {
   const { taskIndex, colIndex } = props;
@@ -24,11 +25,16 @@ function Task(props) {
 
   const { title, description, status } = task;
   return (
-    <div className="w-[280px] first:my-5 rounded-lg bg-white dark:bg-customCharade shadow-customTurquoiseBlue/50 py-6 px-3 shadow-lg hover:text-customBgBtn dark:text-white dark:hover:text-customBgBtn cursor-pointer">
+    <div
+      onClick={() => setIsTaskModalOpen(true)}
+      className="w-[280px] first:my-5 rounded-lg bg-white dark:bg-customCharade shadow-customTurquoiseBlue/50 py-6 px-3 shadow-lg hover:text-customBgBtn dark:text-white dark:hover:text-customBgBtn cursor-pointer my-8"
+    >
       <p className="font-bold tracking-wide">{title}</p>
       <p className="font-bold text-xs tracking-tighter mt-2 text-green-500">
         {completed} of {subtasks.length} completed tasks
       </p>
+
+      {isTaskModalOpen && <TaskModal colIndex={colIndex} taskIndex={taskIndex} setIsTaskModalOpen={setIsTaskModalOpen} />}
     </div>
   );
 }
