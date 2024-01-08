@@ -24,7 +24,7 @@ function Subtask(props) {
   return (
     <div className="w-full flex hover:bg-customBgBtn/50 dark:hover:bg-customBgBtn rounded-md relative items-center justify-center dark:bg-customCharadeTwo p-3 gap-4 bg-bgSidebar">
       <input type="checkbox" className="w-4 h-4 accent-customBgBtn cursor-pointer" checked={checked} onChange={handleChange} />
-      <p className={checked && 'line-through opacity-30'}>{title}</p>
+      <p className={checked ? 'line-through opacity-30' : ''}>{title}</p>
     </div>
   );
 }

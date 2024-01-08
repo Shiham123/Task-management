@@ -81,7 +81,6 @@ function TaskModal(props) {
 
         <div className="mt-3 space-y-2">
           {subtasks.map((subtask, index) => {
-            const { isCompleted, title } = subtask;
             return <Subtask key={index} index={index} taskIndex={taskIndex} colIndex={colIndex} />;
           })}
         </div>
