@@ -5,6 +5,7 @@ import { IoEllipsisVertical } from 'react-icons/io5';
 import EllipsisMenu from '../Ellipsis/EllipsisMenu';
 import Subtask from '../Subtask/Subtask';
 import boardsSlice from '../../redux/boardsSlice';
+import DeleteModal from '../DeleteModal/DeleteModal';
 
 function TaskModal(props) {
   const { colIndex, taskIndex, setIsTaskModalOpen } = props;
@@ -27,14 +28,17 @@ function TaskModal(props) {
   const [newColIndex, setNewColIndex] = useState(columns.indexOf(col));
   const [ellipsisMenuOpen, setEllipsisMenuOpen] = useState(false);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
+  const [isAddTaskModalOpen, setIsAddTaskModalOpen] = useState(false);
 
-  function openEditModal() {
-    // TODO: here write some function
-  }
+  const openEditModal = () => {
+    setIsAddTaskModalOpen(true);
+    setEllipsisMenuOpen(false);
+  };
 
-  function openDeleteModal() {
-    // TODO: will write some code
-  }
+  const openDeleteModal = () => {
+    setEllipsisMenuOpen(false);
+    setIsDeleteModalOpen(true);
+  };
 
   function handleChange(e) {
     setStatus(e.target.value);
@@ -42,8 +46,15 @@ function TaskModal(props) {
   }
 
   function closeDeleteModal(e) {
-    if (e.targe === !e.currentTarget) return;
+    if (e.target === !e.currentTarget) return;
     dispatch(boardsSlice.actions.setTaskStatus({ taskIndex, colIndex, newColIndex, status }));
+    setIsTaskModalOpen(false);
+  }
+
+  function deleteBtnClick() {
+    dispatch(boardsSlice.actions.deleteTask({ taskIndex, colIndex }));
+    setIsDeleteModalOpen(false);
+    setIsTaskModalOpen(false);
   }
 
   return (
@@ -89,6 +100,9 @@ function TaskModal(props) {
           </select>
         </div>
       </div>
+      {isDeleteModalOpen && (
+        <DeleteModal deleteBtnClick={deleteBtnClick} title={task.title} type="task" setIsDeleteModalOpen={setIsDeleteModalOpen} />
+      )}
     </div>
   );
 }

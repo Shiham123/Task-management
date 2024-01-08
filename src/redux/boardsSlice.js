@@ -89,6 +89,14 @@ const boardsSlice = createSlice({
       const newCol = columns.find((col, idx) => idx === payload.newColIndex);
       newCol.tasks.push(task);
     },
+
+    // ! delete task
+    deleteTask: (state, action) => {
+      const payload = action.payload;
+      const board = state.find((board) => board.isActive);
+      const col = board.columns.find((col, idx) => idx === payload.colIndex);
+      col.tasks = col.tasks.filter((task, idx) => idx !== payload.taskIndex);
+    },
   },
 });
 
