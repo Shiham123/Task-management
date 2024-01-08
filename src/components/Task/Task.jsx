@@ -23,7 +23,7 @@ function Task(props) {
     }
   });
 
-  const { title, description, status } = task;
+  const { title } = task;
   return (
     <div
       onClick={() => setIsTaskModalOpen(true)}

@@ -6,6 +6,7 @@ import EllipsisMenu from '../Ellipsis/EllipsisMenu';
 import Subtask from '../Subtask/Subtask';
 import boardsSlice from '../../redux/boardsSlice';
 import DeleteModal from '../DeleteModal/DeleteModal';
+import AddEditTaskModal from '../modals/AddEditTaskModal';
 
 function TaskModal(props) {
   const { colIndex, taskIndex, setIsTaskModalOpen } = props;
@@ -101,6 +102,16 @@ function TaskModal(props) {
       </div>
       {isDeleteModalOpen && (
         <DeleteModal deleteBtnClick={deleteBtnClick} title={task.title} type="task" setIsDeleteModalOpen={setIsDeleteModalOpen} />
+      )}
+
+      {isAddTaskModalOpen && (
+        <AddEditTaskModal
+          setOpenAddEditTask={setIsAddTaskModalOpen}
+          type="edit"
+          taskIndex={taskIndex}
+          perColIndex={colIndex}
+          setIsTaskModalOpen={setIsTaskModalOpen}
+        />
       )}
     </div>
   );

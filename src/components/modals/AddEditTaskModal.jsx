@@ -9,23 +9,32 @@ import { useDispatch, useSelector } from 'react-redux';
 import boardsSlice from '../../redux/boardsSlice';
 
 function AddEditTaskModal(props) {
-  const { type, device, taskIndex, setOpenAddEditTask, perColIndex = 0 } = props; // !all props are extracted here
+  const { type, device, taskIndex, setOpenAddEditTask, perColIndex = 0, setIsTaskModalOpen } = props;
 
-  // ! some state declared here
+  const dispatch = useDispatch(boardsSlice);
+  const board = useSelector((state) => state.boards).find((board) => board.isActive);
+  const columns = board.columns;
+  const col = columns.find((col, index) => index === perColIndex);
+  const task = col ? col.tasks.find((task, idx) => idx === taskIndex) : [];
+
+  const [isFirstLoad, setIsFirstLoad] = useState(true);
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
   const [subTasks, setSubTasks] = useState([{ title: '', isCompleted: false, id: uuidv4() }]);
   const [isValid, setIsValid] = useState(true);
-
-  const dispatch = useDispatch(boardsSlice);
-
-  const board = useSelector((state) => state.boards).find((board) => board.isActive);
-
-  const columns = board.columns;
-  const col = columns.find((col, index) => index === perColIndex);
-
   const [status, setStatus] = useState(columns[perColIndex].name);
   const [newColIndex, setNewColIndex] = useState(perColIndex);
+
+  if (type === 'edit' && isFirstLoad) {
+    setSubTasks(
+      task.subtasks.map((perTask) => {
+        return { ...perTask, id: uuidv4() };
+      })
+    );
+    setTitle(task.title);
+    setDescription(task.description);
+    setIsFirstLoad(false);
+  }
 
   function handleDelete(id) {
     setSubTasks((prevTask) => prevTask.filter((el) => el.id !== id));
@@ -186,4 +195,7 @@ AddEditTaskModal.propTypes = {
   device: PropTypes.string.isRequired,
   setOpenAddEditTask: PropTypes.bool.isRequired,
   type: PropTypes.string.isRequired,
+  taskIndex: PropTypes.number.isRequired,
+  perColIndex: PropTypes.number.isRequired,
+  setIsTaskModalOpen: PropTypes.func.isRequired,
 };
